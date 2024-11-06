@@ -2,39 +2,51 @@
 import Link from "next/link";
 import { auth } from "../firebaseConfig";
 import { useState, useEffect } from "react";
-import { FaUserCircle, FaBell } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
 import Image from "next/image";
 
 const Navbar = () => {
+  const [isClient, setIsClient] = useState(false); // Flag to check if on client-side
   const [user, setUser] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false); // Modalni boshqarish
-  const [userName, setUserName] = useState(""); // Ismni saqlash
-  const [userPhoto, setUserPhoto] = useState(""); // Foydalanuvchi fotosurati
+  const [modalOpen, setModalOpen] = useState(false); // Modal visibility
+  const [userName, setUserName] = useState(""); // User's name
+  const [userPhoto, setUserPhoto] = useState(""); // User's photo URL
 
-  // Tizimga kirgan foydalanuvchi ma'lumotlarini olish
+  // Set isClient to true after the component mounts
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        setUserName(currentUser.displayName || "Foydalanuvchi");
-        setUserPhoto(currentUser.photoURL || "/images/default-avatar.png"); // Google akkountidan foto olish
-      }
-    });
-
-    return () => unsubscribe();
+    setIsClient(true); // Window can be accessed after this
   }, []);
 
-  // Modalni ochish va yopish funksiyalari
+  // Fetch user data when client-side
+  useEffect(() => {
+    if (isClient) {
+      const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+        setUser(currentUser);
+        if (currentUser) {
+          setUserName(currentUser.displayName || "Foydalanuvchi");
+          setUserPhoto(currentUser.photoURL || "/images/default-avatar.png");
+        }
+      });
+
+      return () => unsubscribe();
+    }
+  }, [isClient]); // Run only after client-side rendering
+
+  // Toggle modal visibility
   const toggleModal = () => setModalOpen(!modalOpen);
 
-  // Chiqish funksiyasi
+  // Handle user logout
   const handleLogout = () => {
     auth.signOut();
     setUser(null);
     setUserName("");
-    setUserPhoto(""); // Foto va ismi tozalash
-    setModalOpen(false); // Modalni yopish
+    setUserPhoto("");
+    setModalOpen(false); // Close the modal on logout
   };
+
+  if (!isClient) {
+    return <div>Loading...</div>; // Optionally show a loading spinner or message
+  }
 
   return (
     <div className="container max-w-6xl ml-auto mr-auto relative">
@@ -44,7 +56,7 @@ const Navbar = () => {
             <Link href="/">Logo</Link>
           </div>
           <div className="space-x-6 flex items-center">
-            {/* Agar foydalanuvchi tizimga kirgan bo'lsa */}
+            {/* Conditional rendering based on authentication state */}
             {user ? (
               <>
                 <div className="flex items-center space-x-4 relative">
@@ -54,26 +66,22 @@ const Navbar = () => {
                       src={userPhoto}
                       alt={userName}
                       className="w-8 h-8 rounded-full cursor-pointer"
-                      onClick={toggleModal} // Modalni ochish
+                      onClick={toggleModal}
                     />
                   </div>
 
-                  {/* Qong'iroqcha (Notifications) */}
+                  {/* Notifications */}
                   <div className="relative">
                     <FaBell className="text-white w-6 h-6" />
-                    {/* Bildirishnoma indikatorini ko'rsatish */}
                     <div className="absolute top-0 right-0 bg-red-500 text-xs text-white rounded-full w-3 h-3 flex items-center justify-center">
                       3
                     </div>
                   </div>
                 </div>
 
-                {/* Modal */}
+                {/* Modal for user profile options */}
                 {modalOpen && (
-                  <div
-                    className="absolute top-16 right-4 w-72 bg-white shadow-lg rounded-lg z-50 p-4 transform transition-all ease-in-out duration-300 scale-100 opacity-100"
-                    style={{ transition: "transform 0.3s ease-out" }}
-                  >
+                  <div className="absolute top-16 right-4 w-72 bg-white shadow-lg rounded-lg z-50 p-4 transform transition-all ease-in-out duration-300 scale-100 opacity-100">
                     <div className="flex justify-between items-center mb-4">
                       <div className="flex items-center space-x-2">
                         <Image
@@ -85,10 +93,7 @@ const Navbar = () => {
                           {userName}
                         </span>
                       </div>
-                      <button
-                        className="text-red-500"
-                        onClick={toggleModal} // Modalni yopish
-                      >
+                      <button className="text-red-500" onClick={toggleModal}>
                         &times;
                       </button>
                     </div>
@@ -137,7 +142,7 @@ const Navbar = () => {
                   Kirish
                 </Link>
                 <Link href="/signup" className="hover:cursor-pointer">
-                  Register
+                  Ro&apos;yxatdan o'tish
                 </Link>
               </>
             )}
@@ -145,7 +150,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Reklama */}
+      {/* Advertising Banner */}
       <div className="activebar flex justify-center items-center">
         <Link href="/">
           <Image
