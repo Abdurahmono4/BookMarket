@@ -142,7 +142,7 @@ const Navbar = () => {
                   Kirish
                 </Link>
                 <Link href="/signup" className="hover:cursor-pointer">
-                  Ro&apos;yxatdan o'tish
+                  Register
                 </Link>
               </>
             )}
