@@ -7,7 +7,7 @@ import {
   FaEnvelope,
   FaRegFileAlt,
 } from "react-icons/fa"; // Icons for payment systems, phone, email, etc.
-
+import Image from "next/image";
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white py-8 container max-w-6xl ml-auto mr-auto  pb-0">
@@ -15,7 +15,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Logo & Description */}
           <div className="space-y-4">
-            <img src="/logo.png" alt="Logo" className="w-32" />{" "}
+            <Image src="/logo.png" alt="Logo" className="w-32" />{" "}
             {/* Replace with your actual logo path */}
             <p className="text-sm text-gray-400">
               Providing quality service and innovative solutions for our
