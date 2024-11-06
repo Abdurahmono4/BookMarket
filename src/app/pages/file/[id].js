@@ -14,7 +14,7 @@ const FileDetails = () => {
         Fayl {id} Batafsil
       </h1>
       <p className="text-gray-600">
-        Bu yerda faylning batafsil ma'lumotlari ko'rsatiladi.
+        Bu yerda faylning batafsil malumotlari korsatiladi.
       </p>
     </div>
   );
