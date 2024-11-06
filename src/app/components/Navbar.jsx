@@ -76,7 +76,7 @@ const Navbar = () => {
                   >
                     <div className="flex justify-between items-center mb-4">
                       <div className="flex items-center space-x-2">
-                        <img
+                        <Image
                           src={userPhoto}
                           alt={userName}
                           className="w-8 h-8 rounded-full"
