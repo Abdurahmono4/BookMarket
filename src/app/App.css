@@ -1,0 +1,13 @@
+/* Input qidiruv uchun */
+input[type="text"] {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 1rem;
+}
+
+/* Literature Item hover efekti */
+.literature-item:hover {
+  background-color: #f3f4f6;
+}

@@ -1,101 +1,115 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useState } from "react";
+import Navbar from "./components/Navbar";
+import useAuth from "./hooks/useAuth";
+import LiteratureFilter from "./components/LiteratureFilter";
+import Footer from "./components/Footer";
+import Latest from "./components/Lastest";
+
+const Page = () => {
+  const { user, signOut } = useAuth();
+  const [filter, setFilter] = useState("all"); // Boshlanganida barchasi tanlangan bo'ladi
+
+  const literature = [
+    { id: 1, title: "Adabiyot 1", type: "lesson" },
+    { id: 2, title: "Adabiyot 2", type: "course" },
+    { id: 3, title: "Adabiyot 3", type: "report" },
+    { id: 4, title: "Adabiyot 4", type: "slides" },
+    { id: 5, title: "Adabiyot 5", type: "lesson" },
+    { id: 6, title: "Adabiyot 6", type: "certificate" },
+    // boshqa ma'lumotlar
+  ];
+  const recentFiles = [
+    { id: 1, title: "Fayl 1", uploadedDate: "2024-11-01" },
+    { id: 2, title: "Fayl 2", uploadedDate: "2024-11-03" },
+    { id: 3, title: "Fayl 3", uploadedDate: "2024-11-05" },
+    // boshqa ma'lumotlar
+  ];
+
+  // Linkni bosganida filtrni o'zgartirish
+  const handleFilterClick = (filterType) => {
+    setFilter(filterType);
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="bg-slate-200">
+      {/* Navbar */}
+      <Navbar user={user} signOut={signOut} />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      {/* Filter links */}
+      <div className="container max-w-6xl cursor-pointer mr-auto ml-auto px-0 py-2">
+        <ul className="flex justify-between w-full">
+          <li
+            onClick={() => handleFilterClick("all")}
+            className={`bg-white py-3 px-5 border-2 cursor-pointer w-1/6 text-center   transition-all duration-300  ease-in-out filter-item ${
+              filter === "all"
+                ? "active text-blue-600 btn"
+                : "text-gray-600 hover:text-blue-600"
+            }`}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Barchasi
+          </li>
+          <li
+            onClick={() => handleFilterClick("certificate")}
+            className={`cursor-pointer bg-white w-1/6 py-3 px-5 border-2 text-center transition-all duration-300 ease-in-out filter-item ${
+              filter === "certificate"
+                ? "active text-blue-600 "
+                : "text-gray-600 hover:text-blue-600"
+            }`}
           >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            IELTS AND CERF
+          </li>
+          <li
+            onClick={() => handleFilterClick("lesson")}
+            className={`cursor-pointer bg-white py-3 w-1/6 px-5 border-2 text-center transition-all duration-300 ease-in-out filter-item ${
+              filter === "lesson"
+                ? "active text-blue-600 font-semibold"
+                : "text-gray-600 hover:text-blue-600"
+            }`}
+          >
+            Dars ishlanmalari
+          </li>
+          <li
+            onClick={() => handleFilterClick("course")}
+            className={`cursor-pointer bg-white py-3 px-5 w-1/6 border-2 text-center transition-all duration-300 ease-in-out filter-item ${
+              filter === "course"
+                ? "active text-blue-600 font-semibold"
+                : "text-gray-600 hover:text-blue-600"
+            }`}
+          >
+            Kurslar
+          </li>
+          <li
+            onClick={() => handleFilterClick("report")}
+            className={`cursor-pointer bg-white py-3 px-5 w-1/6 border-2  text-center transition-all duration-300 ease-in-out filter-item ${
+              filter === "report"
+                ? "active text-blue-600 font-semibold"
+                : "text-gray-600 hover:text-blue-600"
+            }`}
+          >
+            Referatlar
+          </li>
+          <li
+            onClick={() => handleFilterClick("slides")}
+            className={`cursor-pointer bg-white py-3 px-5 w-1/6 text-center border-2 transition-all duration-300 ease-in-out filter-item ${
+              filter === "slides"
+                ? "active text-blue-600 font-semibold"
+                : "text-gray-600 hover:text-blue-600"
+            }`}
+          >
+            Slaydlar
+          </li>
+        </ul>
+      </div>
+
+      <LiteratureFilter literature={literature} filter={filter} />
+
+      <Latest files={recentFiles} />
+
+      <Footer />
     </div>
   );
-}
+};
+
+export default Page;
