@@ -52,7 +52,7 @@ const Latest = () => {
   return (
     <div className="container bg-white max-w-6xl cursor-pointer mr-auto ml-auto px-4 py-4 mt-4">
       <h2 className="text-xl font-semibold text-gray-800 mb-4">
-        So'ngi qo'shilgan fayllar
+        So&apos;ngi qo&apos;shilgan fayllar
       </h2>
       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {currentFiles.map((file) => (
