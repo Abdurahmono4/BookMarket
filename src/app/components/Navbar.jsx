@@ -50,7 +50,7 @@ const Navbar = () => {
                 <div className="flex items-center space-x-4 relative">
                   {/* Avatar */}
                   <div className="relative">
-                    <img
+                    <Image
                       src={userPhoto}
                       alt={userName}
                       className="w-8 h-8 rounded-full cursor-pointer"
