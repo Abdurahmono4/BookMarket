@@ -1,5 +1,5 @@
 "use client";
-
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import Navbar from "./components/Navbar";
 import useAuth from "./hooks/useAuth";
@@ -10,7 +10,9 @@ import Latest from "./components/Lastest";
 const Page = () => {
   const { user, signOut } = useAuth();
   const [filter, setFilter] = useState("all"); // Boshlanganida barchasi tanlangan bo'ladi
-
+  const ClientOnlyNavbar = dynamic(() => import("./components/Navbar"), {
+    ssr: false, // Bu komponent faqat mijozda ishlaydi, serverda emas
+  });
   const literature = [
     { id: 1, title: "Adabiyot 1", type: "lesson" },
     { id: 2, title: "Adabiyot 2", type: "course" },
@@ -35,8 +37,9 @@ const Page = () => {
   return (
     <div className="bg-slate-200">
       {/* Navbar */}
-      <Navbar user={user} signOut={signOut} />
+      {/* <Navbar user={user} signOut={signOut} /> */}
 
+      <ClientOnlyNavbar />
       {/* Filter links */}
       <div className="container max-w-6xl cursor-pointer mr-auto ml-auto px-0 py-2">
         <ul className="flex justify-between w-full">
@@ -102,7 +105,6 @@ const Page = () => {
           </li>
         </ul>
       </div>
-
       <LiteratureFilter literature={literature} filter={filter} />
 
       <Latest files={recentFiles} />

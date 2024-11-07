@@ -15,8 +15,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Logo & Description */}
           <div className="space-y-4">
-            <Image src="/logo.png" alt="Logo" className="w-32" />{" "}
-            {/* Replace with your actual logo path */}
+            <Image
+              src="/images/Logotip"
+              alt="Logo"
+              className=""
+              width={32}
+              height={32}
+            />
             <p className="text-sm text-gray-400">
               Providing quality service and innovative solutions for our
               customers. We focus on delivering exceptional value.
